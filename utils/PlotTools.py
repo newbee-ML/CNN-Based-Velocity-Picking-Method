@@ -737,3 +737,11 @@ def StkNMOCMP(Map, tInd, CdpList, cmap='gray', save_path=None):
     plt.close('all')
 
 
+def PlotTensor(tensor):
+    data = tensor.detach().cpu().numpy()
+    FeatureMap(data, cmap='Gray')
+
+
+def PlotArray(Array):
+    FeatureMap(Array, cmap='Gray')
+

@@ -1,31 +1,36 @@
-from train import train, GetTrainPara
+from VGGTrainFunc import GetTrainPara, train
 from Tuning.tuning import ListPara, ParaStr2Dict, UpdateOpt
 import os
 
 #################################
 # experiment setting
 #################################
-ParaDict = {'DataSet': ['str', ['hade']], 
-            'OutputPath': ['str', ['F:\\VelocitySpectrum\\MIFN\\2GeneraTest']], 
-            'SeedRate': ['float', [0.2, 0.5, 0.8, 1.0]], 
-            'SizeW': ['int', [128]], 
-            'trainBS': ['int', [32]], 
-            'lrStart': ['float', [0.01]],
-            'optimizer': ['str', ['adam']]}
+# Ep 1-48
+ParaDict1 = {'DataSet': ['str', ['hade', 'dq8']], 
+            'OutputPath': ['str', ['F:\\VelocityPicking\\VGG16']], 
+            'SeedRate': ['float', [1.0]], 
+            'InputSize': ['str', ['128,128', '64,64', '128,64']], 
+            'VRange': ['str', ['1000,7000']], 
+            'LabelLen': ['int', [40, 65]], 
+            'CropNum': ['int', [45]], 
+            'trainBS': ['int', [16, 32, 64, 128]],
+            'StopMax': ['int', [30]], 
+            'lrStart': ['float', [0.001]],
+            'optimizer': ['str', ['adam', 'sgd']]}
 
 
 #################################
 # training
 #################################
 # get the experiment (ep) list
-EpList = ListPara(ParaDict)
+EpList = ListPara(ParaDict1)
 # get default training parameters
 OptDefault = GetTrainPara()
 for ind, EpName in enumerate(EpList):
     # try:
-    start = 2000
+    start = 1
     # get the ep para dict
-    EpDict = ParaStr2Dict(EpName, ParaDict)
+    EpDict = ParaStr2Dict(EpName, ParaDict1)
     EpDict.setdefault('EpName', 'Ep-%d' % (ind+start))
     # judge whether done before
     if os.path.exists(os.path.join(EpDict['OutputPath'], 'Ep-%d' % (ind+start), 'Result.csv')):
