@@ -4,9 +4,8 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-
 if __name__ == '__main__':
-    for i in range(1, 3):
+    for i in range(5, 39):
         # get test parameters
         OptDefault = GetPredPara()
         OptDefault.EpName = i
